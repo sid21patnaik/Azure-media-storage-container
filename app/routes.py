@@ -20,23 +20,31 @@ def login_required(f):
 
     return decorated_function
 
-@main.route("/")
+@main.route("/", methods=["GET", "POST"])
 @login_required
 def upload_file():
     user = session.get("user")
+
+    if request.method == "POST":
+        file = request.files.get("file")
+        if file:
+            filename = secure_filename(file.filename)
+            # Save to Azure Blob Storage
+            try:
+                container_client.upload_blob(
+                    name=filename,
+                    data=file,
+                    overwrite=True
+                )
+                flash(f"Uploaded file: {filename}", "success")
+            except Exception as e:
+                flash(f"Upload failed: {e}", "danger")
+            return redirect(url_for("main.upload_file"))
+        else:
+            flash("No file selected", "warning")
+
     blobs = list_blobs()
     return render_template("index.html", blobs=blobs, user=user)
-
-@main.route("/upload", methods=["POST"])
-@login_required
-def handle_upload():
-    file = request.files.get("file")
-    if file:
-        filename = secure_filename(file.filename)
-        return f"Received file: {filename}"
-    else:
-        return "No file received"
-
 
 @main.route("/download/<filename>")
 @login_required
@@ -71,11 +79,9 @@ def delete_file(filename):
 @main.route("/logout")
 @login_required
 def logout():
-    from flask import redirect, url_for
     session.clear()
     return redirect(url_for("auth.logout"))
 
-# Test route to verify user session
 @main.route("/test-session")
 def test_session():
     user = session.get("user")

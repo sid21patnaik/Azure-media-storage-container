@@ -31,7 +31,8 @@
     <div class="card mb-5 shadow-sm">
         <div class="card-body">
             <h5 class="card-title">Upload a File</h5>
-            <form action="{{ url_for('main.handle_upload') }}" method="post" enctype="multipart/form-data" class="row g-3">
+            <!-- Updated action to main.upload_file -->
+            <form action="{{ url_for('main.upload_file') }}" method="post" enctype="multipart/form-data" class="row g-2">
                 <div class="col-md-8">
                     <input type="file" name="file" class="form-control" required />
                 </div>
@@ -48,9 +49,9 @@
         <li class="list-group-item d-flex justify-content-between align-items-center">
             <span>{{ blob.name }}</span>
             <div>
-                <a href="{{ url_for('download_file', filename=blob.name) }}" class="btn btn-sm btn-outline-secondary me-2">Download</a>
-                <a href="{{ url_for('view_file', filename=blob.name) }}" target="_blank" class="btn btn-sm btn-outline-success me-2">View</a>
-                <a href="{{ url_for('delete_file', filename=blob.name) }}" class="btn btn-sm btn-outline-danger">Delete</a>
+                <a href="{{ url_for('main.download_file', filename=blob.name) }}" class="btn btn-sm btn-outline-secondary me-2">Download</a>
+                <a href="{{ url_for('main.view_file', filename=blob.name) }}" target="_blank" class="btn btn-sm btn-outline-success me-2">View</a>
+                <a href="{{ url_for('main.delete_file', filename=blob.name) }}" class="btn btn-sm btn-outline-danger">Delete</a>
             </div>
         </li>
         {% endfor %}
