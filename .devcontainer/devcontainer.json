@@ -1,7 +1,7 @@
 {
   "name": "Python Codespace",
   "image": "mcr.microsoft.com/devcontainers/python:3.12",
-  "postCreateCommand": "python3 -m venv .venv && echo 'source .venv/bin/activate' >> ~/.bashrc && source ~/.bashrc",
+  "postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
   "customizations": {
     "vscode": {
       "settings": {
