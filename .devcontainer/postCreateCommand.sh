@@ -1,20 +1,32 @@
 #!/bin/bash
+echo "🚀 Setting up Python virtual environment..."
 
-# 1️⃣ Create venv if it doesn't exist
+# Create venv if it doesn't exist
 if [ ! -d ".venv" ]; then
     python3 -m venv .venv
+    echo "✅ Virtual environment created."
+else
+    echo "ℹ️ Virtual environment already exists."
 fi
 
-# 2️⃣ Add auto-activate to bashrc if not already present
-grep -qxF "source \$PWD/.venv/bin/activate" ~/.bashrc || echo "source \$PWD/.venv/bin/activate" >> ~/.bashrc
-
-# 3️⃣ Activate venv in current terminal session
+# Activate venv
 source .venv/bin/activate
 
-# 4️⃣ Upgrade pip and install requirements if available
+# Upgrade pip
 pip install --upgrade pip
-if [ -f requirements.txt ]; then
+
+# Install dependencies if requirements.txt exists
+if [ -f "requirements.txt" ]; then
     pip install -r requirements.txt
+    echo "✅ Dependencies installed from requirements.txt"
+else
+    echo "⚠️ No requirements.txt found — skipping dependency installation."
 fi
 
-echo "✅ Virtual environment is ready and auto-activates on every terminal."
+# Add venv auto-activation to .bashrc
+if ! grep -q "source .venv/bin/activate" ~/.bashrc; then
+    echo "source .venv/bin/activate" >> ~/.bashrc
+    echo "✅ Added auto venv activation to .bashrc"
+fi
+
+echo "🎯 Environment setup complete."
