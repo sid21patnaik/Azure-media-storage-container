@@ -13,7 +13,12 @@ def create_app():
     app.config["SESSION_PERMANENT"] = False
     app.config["SESSION_USE_SIGNER"] = True
     app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
-    app.config['SESSION_COOKIE_SECURE'] = False  # Set True if HTTPS in prod
+
+    # Detect environment for secure cookies
+    if os.getenv("ENVIRONMENT") == "DEV":
+        app.config['SESSION_COOKIE_SECURE'] = True
+    else:
+        app.config['SESSION_COOKIE_SECURE'] = False
 
     # Register blueprints
     from .routes import main
@@ -24,5 +29,10 @@ def create_app():
 
     # Initialize session
     Session(app)
+
+    # Dynamically set redirect URI for Azure deployment
+    if os.getenv("ENVIRONMENT") == "DEV":
+        from .auth import REDIRECT_URI as _azure_redirect_uri
+        os.environ["REDIRECT_URI"] = _azure_redirect_uri
 
     return app
