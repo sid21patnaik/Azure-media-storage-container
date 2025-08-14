@@ -1,2 +1,2 @@
 #!/bin/bash
-gunicorn --bind=0.0.0.0:8000 --timeout 600 "run:create_app()"
+gunicorn --bind=0.0.0.0:5000 --timeout 600 "run:create_app()"
