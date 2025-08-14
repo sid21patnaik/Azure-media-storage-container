@@ -29,6 +29,17 @@ def upload_file():
         file = request.files.get("file")
         if file:
             filename = secure_filename(file.filename)
+            # ✅ Auto-renaming if file exists
+            existing_files = [blob.name for blob in container_client.list_blobs()]
+            if filename in existing_files:
+                name, ext = os.path.splitext(filename)
+                counter = 1
+                new_filename = f"{name}_{counter}{ext}"
+                while new_filename in existing_files:
+                    counter += 1
+                    new_filename = f"{name}_{counter}{ext}"
+                filename = new_filename
+
             # Save to Azure Blob Storage
             try:
                 container_client.upload_blob(
