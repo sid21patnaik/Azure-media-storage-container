@@ -1,19 +1,19 @@
 # Azure Flask Media Storage Application
 
 ## 📌 Overview
-The **Azure Flask Media Storage Application** is a secure web-based solution to upload, store, view, and manage media files (photos, videos, documents) using **Azure App Service** and **Azure Blob Storage**.  
+The **Azure Flask Media Storage Application** is a secure web-based solution for uploading, storing, viewing, and managing media files (photos, videos, documents) using **Azure App Service** and **Azure Blob Storage**.  
 It includes **Microsoft Entra ID (Azure AD)** authentication via **MSAL** to ensure only authorized users can access the application.
 
 ---
 
 ## ✨ Features
-- 🔐 **Azure AD Authentication** using MSAL
-- 📤 Upload media files to Azure Blob Storage
-- 📄 Auto-renaming of files to avoid name conflicts
-- 📋 List uploaded files with metadata
-- 📥 Download stored files
-- ❌ Delete files from storage
-- 🛠 Basic, clean UI for quick access
+- Azure AD Authentication using MSAL
+- Upload media files to Azure Blob Storage
+- Auto-renaming of files to avoid name conflicts
+- List uploaded files with metadata
+- Download stored files
+- Delete files from storage
+- Simple, clean UI for quick access
 
 ---
 
@@ -27,108 +27,111 @@ It includes **Microsoft Entra ID (Azure AD)** authentication via **MSAL** to ens
 ---
 
 ## 📂 Project Structure
-Azure-media-storage-container/
-│
-├── auth/ # Authentication Blueprint
-│ ├── init.py
-│ └── routes.py
-│
-├── templates/ # HTML templates
-│ ├── index.html
-│ ├── upload.html
-│ └── ...
-│
-├── static/ # CSS, JS, and image files
-│
-├── requirements.txt # Python dependencies
-├── run.py # Main Flask application entry point
-├── config.py # Configuration (environment variables, Azure setup)
-└── README.md # Project documentation
 
+- `auth/`                  → Authentication Blueprint  
+  - `__init__.py`  
+  - `routes.py`  
+- `templates/`             → HTML templates  
+  - `index.html`  
+  - `upload.html`  
+  - `layout.html`  
+- `static/`                → CSS, JS, and image files  
+- `requirements.txt`       → Python dependencies  
+- `run.py`                 → Main Flask application entry point  
+- `config.py`              → Configuration (environment variables, Azure setup)  
+- `README.md`              → Project documentation
 
 ---
 
 ## ⚙️ Prerequisites
-- **Python 3.8+**
-- **Azure Subscription**
-- **Azure Blob Storage account**
-- **Azure App Registration** (Microsoft Entra ID)
-- **Azure App Service** for deployment
+Before running this project, make sure you have:
+
+- Python 3.8+
+- Azure Subscription
+- Azure Blob Storage account
+- Azure App Registration (Microsoft Entra ID)
+- Azure App Service for deployment
 
 ---
 
 ## 🚀 Local Setup
 
-1️⃣ **Clone the repository**  
-```bash
+### 1. Clone the repository
+
+bash
 git clone https://github.com/<your-username>/Azure-media-storage-container.git
 cd Azure-media-storage-container
 
-2️⃣ **Clone the repository**
+### 2. Create a virtual environment
 
-python -m venv venv
-source venv/bin/activate   # Mac/Linux
-venv\Scripts\activate      # Windows
+bash
+- python -m venv venv
 
+#### Mac/Linux
 
-3️⃣ Install dependencies
+- source venv/bin/activate
 
-pip install -r requirements.txt
+#### Windows
 
-4️⃣ Set environment variables (replace with your values)
-Mac/Linux
-
-export CLIENT_ID="your-azure-client-id"
-export CLIENT_SECRET="your-azure-client-secret"
-export AUTHORITY="https://login.microsoftonline.com/<your-tenant-id>"
-export REDIRECT_PATH="/getAToken"
-export SCOPE="User.Read"
-export SESSION_TYPE="filesystem"
-
-export AZURE_STORAGE_CONNECTION_STRING="your-storage-connection-string"
-export AZURE_STORAGE_CONTAINER_NAME="your-container-name"
+- venv\Scripts\activate
 
 
-Windows PowerShell
+### 3. Install dependencies 
 
-set CLIENT_ID=your-azure-client-id
-set CLIENT_SECRET=your-azure-client-secret
-set AUTHORITY=https://login.microsoftonline.com/<your-tenant-id>
-set REDIRECT_PATH=/getAToken
-set SCOPE=User.Read
-set SESSION_TYPE=filesystem
+Bash
+- pip install -r requirements.txt
 
-set AZURE_STORAGE_CONNECTION_STRING=your-storage-connection-string
-set AZURE_STORAGE_CONTAINER_NAME=your-container-name
+### 4. Set environment variables
+
+#### Mac/Linux
+
+Bash
+- export CLIENT_ID="your-azure-client-id"
+- export CLIENT_SECRET="your-azure-client-secret"
+- export AUTHORITY="https://login.microsoftonline.com/<your-tenant-id>"
+- export REDIRECT_PATH="/getAToken"
+- export SCOPE="User.Read"
+- export SESSION_TYPE="filesystem"
+- export AZURE_STORAGE_CONNECTION_STRING="your-storage-connection-string"
+- export AZURE_STORAGE_CONTAINER_NAME="your-container-name"
+
+#### Windows PowerShell
+
+Bash
+- set CLIENT_ID=your-azure-client-id
+- set CLIENT_SECRET=your-azure-client-secret
+- set AUTHORITY=https://login.microsoftonline.com/<your-tenant-id>
+- set REDIRECT_PATH=/getAToken
+- set SCOPE=User.Read
+- set SESSION_TYPE=filesystem
+- set AZURE_STORAGE_CONNECTION_STRING=your-storage-connection-string
+- set AZURE_STORAGE_CONTAINER_NAME=your-container-name
 
 
-5️⃣ Run locally
+### 5. Run the application locally
 
-python run.py
+Bash
+- python run.py
 
+---
 
-🌐 Deployment to Azure App Service
+## 🌐 Deployment to Azure App Service
 
-Push code to your GitHub repository
+- Push your code to GitHub.
+- Create an Azure App Service and connect it to your repository.
+- Configure Environment Variables in Azure App Service → Configuration.
+- Deploy the application via VS Code Azure extension or GitHub Actions.
+- Access the application using the Azure-provided URL.
 
-Create an Azure App Service and connect to your repo
+---
 
-Configure environment variables in Azure App Service → Configuration
+## 🔮 Future Improvements
 
-Deploy using VS Code Azure extension or GitHub Actions
-
-Access your app via the Azure-provided URL
-
-🔮 Future Improvements
-
-📑 In-browser document preview
-
-📊 File usage analytics
-
-📱 Mobile-friendly responsive UI
-
-🗄 Multi-container support for different media types
-
+- In-browser document preview
+- File usage analytics
+- Mobile-friendly responsive UI
+- Multi-container support for different media types
+  
 📝 License
 
 This project is licensed under the MIT License.
