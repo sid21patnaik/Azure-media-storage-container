@@ -1,6 +1,4 @@
 .env
-.env.ut1
-.env.prod
 __pycache__/
 .venv/
 *.pyc
