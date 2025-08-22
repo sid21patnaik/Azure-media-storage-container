@@ -68,6 +68,25 @@ def authorized():
 
 @auth_bp.route("/logout")
 def logout():
+    # Clear session
     session.clear()
-    logout_url = f"{AUTHORITY}/oauth2/v2.0/logout?post_logout_redirect_uri={url_for('main.upload_file', _external=True)}"
-    return redirect(logout_url)
+    
+    # Redirect to a local logout confirmation page first
+    return redirect(url_for("auth.logged_out"))
+
+@auth_bp.route("/logged-out")
+def logged_out():
+    """
+    Show a message confirming the user has been logged out,
+    and provide a button to log in again.
+    """
+    return """
+    <html>
+        <head><title>Logged Out</title></head>
+        <body style="font-family:sans-serif; padding:30px;">
+            <h2>✅ You have successfully logged out.</h2>
+            <p><a href="{}">Click here to log in again</a></p>
+        </body>
+    </html>
+    """.format(url_for("auth.login"))
+

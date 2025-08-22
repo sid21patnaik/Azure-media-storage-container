@@ -3,88 +3,63 @@ from datetime import datetime, timedelta
 import os, mimetypes
 
 # --------------------------
-# Azure Storage Configuration
+# Azure Storage Config
 # --------------------------
-connection_string = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
-container_name = os.getenv("AZURE_STORAGE_CONTAINER_NAME")
+CONNECTION_STRING = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
+CONTAINER_NAME = os.getenv("AZURE_STORAGE_CONTAINER_NAME")
 
-# Create Blob service and container clients
-blob_service_client = BlobServiceClient.from_connection_string(connection_string)
-container_client = blob_service_client.get_container_client(container_name)
-
+blob_service_client = BlobServiceClient.from_connection_string(CONNECTION_STRING)
+container_client = blob_service_client.get_container_client(CONTAINER_NAME)
 
 # --------------------------
-# List all blobs
+# List blobs
 # --------------------------
 def list_blobs():
-    """
-    Returns a generator of blobs inside the container.
-    """
+    """Return list of all blobs in container"""
     return container_client.list_blobs()
 
-
 # --------------------------
-# Upload blob
-# --------------------------
-def upload_blob(file):
-    """
-    Uploads a file to Azure Blob Storage.
-    """
-    blob_client = container_client.get_blob_client(file.filename)
-    blob_client.upload_blob(file, overwrite=True)
-
-
-# --------------------------
-# Download blob (raw bytes)
+# Download blob
 # --------------------------
 def download_blob(filename):
-    """
-    Downloads blob content as raw bytes.
-    """
+    """Download blob data as bytes"""
     blob_client = container_client.get_blob_client(filename)
     return blob_client.download_blob().readall()
-
 
 # --------------------------
 # Delete blob
 # --------------------------
 def delete_blob(filename):
-    """
-    Deletes a blob from storage.
-    """
+    """Delete a blob from container"""
     blob_client = container_client.get_blob_client(filename)
     blob_client.delete_blob()
 
-
 # --------------------------
-# Get SAS URL for viewing
+# Generate SAS URL for viewing
 # --------------------------
 def get_sas_view_url(filename):
     """
-    Generates a temporary SAS URL for viewing a blob.
+    Generate temporary SAS URL (1 hour) for viewing Office files in browser
     """
     blob_client = container_client.get_blob_client(filename)
     sas_token = generate_blob_sas(
         account_name=blob_service_client.account_name,
-        container_name=container_name,
+        container_name=CONTAINER_NAME,
         blob_name=filename,
         account_key=blob_service_client.credential.account_key,
         permission=BlobSasPermissions(read=True),
-        expiry=datetime.utcnow() + timedelta(hours=1)  # URL valid for 1 hour
+        expiry=datetime.utcnow() + timedelta(hours=1)
     )
     return f"{blob_client.url}?{sas_token}"
 
-
 # --------------------------
-# Get file as stream + MIME
+# Stream blob with MIME type
 # --------------------------
 def get_file_stream(filename):
     """
-    Returns blob as (file_stream, mime_type).
+    Return blob data and MIME type for streaming in browser
     """
     blob_client = container_client.get_blob_client(filename)
     blob_data = blob_client.download_blob().readall()
-
-    # Guess MIME type or default to binary
     mime_type, _ = mimetypes.guess_type(filename)
     return blob_data, mime_type or "application/octet-stream"
