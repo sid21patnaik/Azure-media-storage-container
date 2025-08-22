@@ -29,5 +29,7 @@
         "env.bak{,/**}",
         "venv.bak{,/**}",
         ".vscode{,/**}"
-    ]
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/a1dab08e-e3ad-42bc-b7a1-3906d53c51db/resourceGroups/project-media-storage-dev-rg/providers/Microsoft.Web/sites/mediastorage-webapp-dev",
+    "appService.deploySubpath": "."
 }
